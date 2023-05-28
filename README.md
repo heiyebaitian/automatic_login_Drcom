@@ -1,6 +1,6 @@
 # automatic_login_CNet
 这是一个Python写的校园网自动登录程序,适用于Dr.COM校园网认证系统,以模拟GET请求的方式完成登录验证
-## :fa-cog spin: 环境
+## 环境
 * python版本为3.7(目前验证的版本为3.11)
 ```
 conda create -n name python=3.7
@@ -10,7 +10,7 @@ conda create -n name python=3.7
 ```
 pip install -r requirements.txt
 ```
-##  :fa-globe: 使用说明
+## 使用说明
 #### 第一步:安装Python
 您可以前往 [点我下载](https://www.python.org/downloads/) 安装对应的Python环境
 此处不对该步骤做过多阐述,详细教程参见 [安装教程](https://zhuanlan.zhihu.com/p/104502997)
