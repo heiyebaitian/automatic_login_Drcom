@@ -2,7 +2,9 @@ import requests # GET请求使用
 import time # 时间戳
 import random # 随机生成字符串
 import string # 字符串处理
+import socket # 获取IP地址
 import sys
+
 
 def create_login_information(): # 登录信息创建程序
     print('检测到您可能是第一次使用!\n请按照以下提示创建登录信息：\n')
@@ -27,7 +29,18 @@ def create_login_information(): # 登录信息创建程序
         login_inf.write('PHPSESSID='+cookie)
         print('\n登录信息配置程序已完成，请重新执行本程序以开始登录！')
         sys.exit (0)
-
+        
+def get_lan_ip(): # 获取您的IP地址（如果您外接了路由器等情况，会导致本程序无法获取正确的主机IP！请手动在下方host_ip变量修改为您的真实IP）
+    ip = ''
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('10.255.255.255', 0))
+        ip = s.getsockname()[0]
+    except Exception as e:
+        print(e)
+    finally:
+        s.close()
+    return ip
 
 
 try:
@@ -38,10 +51,11 @@ try:
         except IndexError:
             print('\n\033[31m发生错误!\033[0m\n登录信息已丢失或已损坏，请重新配置登录信息！\n')
             create_login_information()
-        ip = lines[1].split('=')[1].strip()
+        server_ip = lines[1].split('=')[1].strip()
         user_account= lines[2].split('=')[1].strip()
         password= lines[3].split('=')[1].strip()
         cookie= lines[4]
+        host_ip = '10.71.40.21' #如果无法获取真实IP地址，请手动设置该变量！！！
         timestamp = time.time()*1000 # 生成符合格式的时间戳
         callback = 'dr'+ str(int(timestamp)) # 合成时间戳（时间戳疑似是不严格校验）
 except FileNotFoundError:
@@ -49,15 +63,15 @@ except FileNotFoundError:
 
 
 # 合成URL及请求头，如果URL失效了请修改此行格式
-# wlan_user_ip、wlan_user_mac、jsVersion啥的可能要根据自身情况测试，您可以使用浏览器F12来抓取URL
-url = 'http://'+ ip +'/eportal/?c=Portal&a=login&callback='+ callback +'&login_method=1&user_account='+ user_account +'telecom&user_password='+ password +'&wlan_user_ip=10.71.40.21&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=PTXY-Core&jsVersion=3.0&_=1685188911157'
+# wlan_user_mac、jsVersion啥的可能要根据自身情况测试，您可以使用浏览器F12来抓取URL
+url = 'http://'+ server_ip +'/eportal/?c=Portal&a=login&callback='+ callback +'&login_method=1&user_account='+ user_account +'telecom&user_password='+ password +'&wlan_user_ip='+ host_ip +'&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=PTXY-Core&jsVersion=3.0&_='+ str(int(timestamp))
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0',
     'Accept': '*/*',
     'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
     'Accept-Encoding': 'gzip, deflate',
     'Connection': 'close',
-    'Referer': 'http://'+ ip.split(':')[0].strip() +'/',
+    'Referer': 'http://'+ server_ip.split(':')[0].strip() +'/',
     'Cookie': cookie
 }
 print('\n请求URL为：\n'+url) # 输出生成的URL
@@ -67,13 +81,13 @@ try:
     response = requests.get(url,headers,timeout = 5) #发送请求
     print('\n\n\033[32m服务器已应答\033[0m\n'+response.text) # 输出回复报文
     if 'result":"0"' in response.text and 'ret_code":"2"' in response.text: # 重复登陆
-        print('\n\033[31m登录失败!\033[0m\n请检查是否重复登陆！')
+        print('\n\033[31m登录失败!\033[0m\n请检查是否重复登陆！\n注意，该错误也可能是因为您的主机IP地址错误导致的，原因可能是您的IP地址已被其他设备占用，您可以手动修改host_ip变量为您的真实IP地址。')
     elif 'result":"0"' in response.text and 'ret_code":"4"' in response.text: # 账号或密码错误
         print('\n\033[31m登录失败!\033[0m\n请检查账号密码是否正确！（请编辑或删除目录下的login_information.inf文件）')
     elif 'result":"1"' in response.text: # 登陆成功
         print('\n\033[32m登陆成功！\033[0m\n登录有效时间为24小时')
     else: # 未知报文错误
-        print('\033[31m结果异常！\033[0m\n请检查请求内容是否有效或是否被BAN')
+        print('\033[31m结果异常！\033[0m\n请检查请求内容是否有效或是否被BAN\n常见问题：\n1.您的主机IP地址错误，原因可能是您外接了路由器等情况，您可以手动修改host_ip变量为您的真实IP地址。\n2.您的防火墙拦截了该请求。\n')
 except requests.exceptions.ConnectionError as e: # 网络问题抛出异常
     print('\n\033[31m服务器无应答！\033[0m\n连接断开，可能是目标主机不存在或您的网络连接已断开！\n\n', e)
 except requests.exceptions.Timeout as e: # 响应超时
