@@ -6,9 +6,15 @@
 conda create -n name python=3.7
 ```
 
-* 安装requirements所需依赖
+* 所需依赖
 ```
-pip install -r requirements.txt
+import requests # GET请求使用 
+import time # 时间戳
+import random # 随机生成字符串
+import string # 字符串处理
+import socket # 获取IP地址
+import sys
+
 ```
 ## 使用说明
 #### 第一步:安装Python
