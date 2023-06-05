@@ -1,7 +1,7 @@
-# automatic_login_CNet
+# automatic_login_Drcom
 这是一个Python写的校园网自动登录程序,适用于Dr.COM校园网认证系统,以模拟GET请求的方式完成登录验证
 ## 环境
-* python版本为3.7(目前验证的版本为3.11)
+* python版本为3.7及以上（低于该版本未测试）
 ```
 conda create -n name python=3.7
 ```
@@ -16,6 +16,11 @@ import socket # 获取IP地址
 import sys
 
 ```
+* 依赖一键安装命令
+```
+pip install -r requirements.txt
+```
+
 ## 使用说明
 #### 第一步:安装Python
 您可以前往 [点我下载](https://www.python.org/downloads/) 安装对应的Python环境
