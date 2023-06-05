@@ -1,0 +1,47 @@
+name: automatic_login_Drcom
+channels:
+  - defaults
+dependencies:
+  - ca-certificates=2023.01.10=haa95532_0
+  - certifi=2022.12.7=py37haa95532_0
+  - openssl=1.1.1t=h2bbff1b_0
+  - pip=22.3.1=py37haa95532_0
+  - python=3.7.16=h6244533_0
+  - setuptools=65.6.3=py37haa95532_0
+  - sqlite=3.41.2=h2bbff1b_0
+  - vc=14.2=h21ff451_1
+  - vs2015_runtime=14.27.29016=h5e58377_2
+  - wheel=0.38.4=py37haa95532_0
+  - wincertstore=0.2=py37haa95532_2
+  - pip:
+      - altgraph==0.17.3
+      - auto-py-to-exe==2.34.0
+      - bottle==0.12.25
+      - bottle-websocket==0.2.9
+      - cffi==1.15.1
+      - charset-normalizer==3.1.0
+      - docopt==0.6.2
+      - eel==0.16.0
+      - future==0.18.3
+      - gevent==22.10.2
+      - gevent-websocket==0.10.1
+      - greenlet==2.0.2
+      - idna==3.4
+      - importlib-metadata==6.6.0
+      - pefile==2023.2.7
+      - pipreqs==0.4.13
+      - pycparser==2.21
+      - pyinstaller==5.10.1
+      - pyinstaller-hooks-contrib==2023.3
+      - pyparsing==3.0.9
+      - pypiwin32==223
+      - pywin32==306
+      - pywin32-ctypes==0.2.0
+      - requests==2.30.0
+      - typing-extensions==4.5.0
+      - urllib3==2.0.2
+      - whichcraft==0.6.1
+      - yarg==0.1.9
+      - zipp==3.15.0
+      - zope-event==4.6
+      - zope-interface==6.0
