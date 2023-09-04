@@ -9,10 +9,17 @@ import sys
 def create_login_information(): 
     print('检测到您可能是第一次使用!\n请按照以下提示创建登录信息：\n')
     with open('login_information.inf', 'w') as login_inf:
-        ip = input('\n请输入您登录服务器的IP地址（带端口号）:')
+        ip = input('\n请输入您登录服务器的IP地址及端口号（端口一般为801）:')
         user_account = input('\n请输入您的登录用户名：')
         password = input('\n请输入您的登录密码：')
-        key = input('\n您是否要自动生成一个新的PHPSESSID？（Y/n）')
+        key = input('\n您是否要启用【兼容模式】（不知道请填Y）（Y/n）')
+        if key.lower() == "y":
+            compatibility_mode = 1
+            print('\n已启用【兼容模式】！')
+        else:
+            compatibility_mode = 0
+            print('\n已禁用【兼容模式】！')
+        key = input('\n您是否要自动生成一个新的PHPSESSID？（不知道请填Y）（Y/n）')
         if key.lower() == "y":
             digits = string.ascii_lowercase + string.digits
             random_string = ''.join(random.choice(digits) for _ in range(26))
@@ -26,6 +33,7 @@ def create_login_information():
         login_inf.write('ip = '+ip+'\n')
         login_inf.write('user_account = '+user_account+'\n')
         login_inf.write('password = '+password+'\n')
+        login_inf.write('compatibility_mode = '+str(compatibility_mode)+'\n')
         login_inf.write('PHPSESSID='+cookie)
         print('\n登录信息配置程序已完成，请重新执行本程序以开始登录！')
         sys.exit (0)
@@ -54,12 +62,15 @@ try:
             print('\n\033[31m发生错误!\033[0m\n登录信息已丢失或已损坏，请重新配置登录信息！\n')
             create_login_information()
         server_ip = lines[1].split('=')[1].strip()
-        user_account= lines[2].split('=')[1].strip()
-        password= lines[3].split('=')[1].strip()
-        cookie= lines[4]
+        user_account = lines[2].split('=')[1].strip()
+        password = lines[3].split('=')[1].strip()
+        compatibility_mode = lines[4].split('=')[1].strip()
+        cookie = lines[5]
         host_ip = get_lan_ip() #如果无法获取真实IP地址，请手动设置该变量！！！
         timestamp = time.time()*1000 # 生成符合格式的时间戳
         callback = 'dr'+ str(int(timestamp)) # 合成时间戳（时间戳疑似是不严格校验）
+        if compatibility_mode == '1':
+            user_account = '%2C0%2C'+ user_account + '%40' # 兼容部分用户名格式
 except FileNotFoundError:
     create_login_information()
 
