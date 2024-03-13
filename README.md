@@ -1,6 +1,7 @@
 # automatic_login_Drcom
 这是一个Python写的校园网自动登录程序,适用于Dr.COM校园网认证系统,以模拟GET请求的方式完成登录验证
 您可以直接下载免安装版使用[点我下载](https://github.com/heiyebaitian/automatic_login_Drcom/releases)
+其他使用教程请参见[点我访问](https://www.kawayi.space/archives/260/)
 
 ## 环境
 * python版本为3.7及以上(低于该版本未测试)
@@ -55,7 +56,7 @@ py main.py
  ```
  #### 第三步:登录测试
  ~~请先退出您的校园网,并再次使用以下命令执行本程序~~
-(2023.9.3版本更新后已无需手动推出校园网,程序会根据情况自动重置登录)
+(2023.9.3版本更新后已无需手动退出校园网,程序会根据情况自动重置登录)
  ```
 py main.py
  ```
