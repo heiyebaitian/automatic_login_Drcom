@@ -94,7 +94,7 @@ def login_app():
         elif 'result":"1"' in response.text: # 登陆成功
             print('\n\033[32m登录成功！\033[0m\n登录有效时间为24小时')
         else: # 未知报文错误
-            print('\033[31m结果异常！\033[0m\n请检查请求内容是否有效或是否被BAN\n常见问题：\n1.您的主机IP地址错误，原因可能是您外接了路由器等情况，您可以手动修改host_ip变量为您的真实IP地址。\n2.您的防火墙拦截了该请求。\n')
+            print('\033[31m结果异常！\033[0m\n请检查请求内容是否有效或是否被BAN\n常见问题：\n1.您的主机IP地址错误，原因可能是您外接了路由器等情况，您可以手动修改host_ip变量为您的真实IP地址。\n2.您的防火墙拦截了该请求。\n2.您的防火墙拦截了该请求。\n3.您的URL构造错误或URL不属于这个学校的校园网\n')
     except requests.exceptions.ConnectionError as e: # 网络问题抛出异常
         print('\n\033[31m服务器无应答！\033[0m\n连接断开，可能是目标主机不存在或您的网络连接已断开！\n\n', e)
     except requests.exceptions.Timeout as e: # 响应超时
@@ -108,7 +108,7 @@ def logout_app():
         if 'result":"1"' in response.text: # 注销成功
             print('\n\033[32m注销成功！\033[0m')
         else: # 未知报文错误
-            print('\033[31m结果异常！\033[0m\n请检查请求内容是否有效或是否被BAN\n常见问题：\n1.您的主机IP地址错误，原因可能是您外接了路由器等情况，您可以手动修改host_ip变量为您的真实IP地址。\n2.您的防火墙拦截了该请求。\n')
+            print('\033[31m结果异常！\033[0m\n请检查请求内容是否有效或是否被BAN\n常见问题：\n1.您的主机IP地址错误，原因可能是您外接了路由器等情况，您可以手动修改host_ip变量为您的真实IP地址。\n2.您的防火墙拦截了该请求。\n3.您的URL构造错误或URL不属于这个学校的校园网\n')
     except requests.exceptions.ConnectionError as e: # 网络问题抛出异常
         print('\n\033[31m服务器无应答！\033[0m\n连接断开，可能是目标主机不存在或您的网络连接已断开！\n\n', e)
     except requests.exceptions.Timeout as e: # 响应超时
