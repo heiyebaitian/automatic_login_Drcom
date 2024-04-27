@@ -52,27 +52,7 @@ def get_lan_ip(): # 获取您的IP地址（如果您外接了路由器等情况�
     return ip
 
 
-# 读取配置信息
-try:
-    with open('login_information.inf', 'r') as login_inf: #读取存储的登录信息到变量
-        lines = login_inf.readlines()
-        try:
-            flag = lines[0].split('=')[1].strip()
-        except IndexError:
-            print('\n\033[31m发生错误!\033[0m\n登录信息已丢失或已损坏，请重新配置登录信息！\n')
-            create_login_information()
-        server_ip = lines[1].split('=')[1].strip()
-        user_account = lines[2].split('=')[1].strip()
-        password = lines[3].split('=')[1].strip()
-        compatibility_mode = lines[4].split('=')[1].strip()
-        cookie = lines[5]
-        host_ip = get_lan_ip() #如果无法获取真实IP地址，请手动设置该变量！！！
-        timestamp = time.time()*1000 # 生成符合格式的时间戳
-        callback = 'dr'+ str(int(timestamp)) # 合成时间戳（时间戳疑似是不严格校验）
-        if compatibility_mode == '1':
-            user_account = '%2C0%2C'+ user_account + '%40' # 兼容部分用户名格式
-except FileNotFoundError:
-    create_login_information()
+
 
 # 登录程序
 def login_app():
@@ -114,6 +94,34 @@ def logout_app():
     except requests.exceptions.Timeout as e: # 响应超时
         print('\n\033[31m服务器无应答！\033[0m\n响应超时，可能是目标主机不存在或您的网络连接已断开！\n\n', e)
 
+
+
+
+
+# 主函数
+# 读取配置信息
+try:
+    with open('login_information.inf', 'r') as login_inf: #读取存储的登录信息到变量
+        lines = login_inf.readlines()
+        try:
+            flag = lines[0].split('=')[1].strip()
+        except IndexError:
+            print('\n\033[31m发生错误!\033[0m\n登录信息已丢失或已损坏，请重新配置登录信息！\n')
+            create_login_information()
+        server_ip = lines[1].split('=')[1].strip()
+        user_account = lines[2].split('=')[1].strip()
+        password = lines[3].split('=')[1].strip()
+        compatibility_mode = lines[4].split('=')[1].strip()
+        cookie = lines[5]
+        host_ip = get_lan_ip() #如果无法获取真实IP地址，请手动设置该变量！！！
+        timestamp = time.time()*1000 # 生成符合格式的时间戳
+        callback = 'dr'+ str(int(timestamp)) # 合成时间戳（时间戳疑似是不严格校验）
+        if compatibility_mode == '1':
+            user_account = '%2C0%2C'+ user_account + '%40' # 兼容部分用户名格式
+except FileNotFoundError:
+    create_login_information()
+
+
 # 合成登录URL及请求头，如果URL失效了请修改此行格式
 # wlan_user_mac、jsVersion啥的可能要根据自身情况测试，您可以使用浏览器F12来抓取URL
 url_login = 'http://'+ server_ip +'/eportal/?c=Portal&a=login&callback='+ callback +'&login_method=1&user_account='+ user_account +'telecom&user_password='+ password +'&wlan_user_ip='+ host_ip +'&wlan_user_mac=000000000000&wlan_ac_ip=&wlan_ac_name=PTXY-Core&jsVersion=3.0&_='+ str(int(timestamp))
@@ -130,6 +138,6 @@ headers = {
 print('\n请求URL为：\n'+url_login) # 输出生成的URL
 
 
-# 主函数
+
 retry = 0
 login_app()
