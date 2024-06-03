@@ -3,6 +3,11 @@
 您可以直接下载免安装版使用[点我下载](https://github.com/heiyebaitian/automatic_login_Drcom/releases)
 其他使用教程请参见[点我访问](https://www.kawayi.space/archives/260/)
 
+已适配验证的学校：
+* 莆田学院
+* 益阳职业技术学院（需修改URL参数）
+
+
 ## 环境
 * python版本为3.7及以上(低于该版本未测试)
 ```
